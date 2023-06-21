@@ -1,10 +1,8 @@
 <section class="convertCurrency">
-  <input type="text" name="amount" />
+  <input type="text" name="amount" [(ngModel)]="data.input" (input)="fireData()" />
   <div class="select">
-    <select name="currencies">
-      <option value="USD">USD</option>
-      <option value="UAH">UAH</option>
-      <option value="EUR">EUR</option>
+    <select name="currencies" [(ngModel)]="data.selected" (change)="fireData()">
+      <option [value]="code" *ngFor="let code of availableCurrency">{{ code }}</option>
     </select>
   </div>
 </section>
