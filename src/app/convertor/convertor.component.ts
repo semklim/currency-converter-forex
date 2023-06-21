@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../services/Forex/currency.service';
-import { Observable } from 'rxjs';
 
 export type ConvertorInputs = {
   input: number;
@@ -13,7 +12,7 @@ export type ConvertorInputs = {
   styleUrls: ['./convertor.component.css'],
 })
 export class ConvertorComponent implements OnInit {
-  availableCurrency?: Observable<string[]>;
+  availableCurrency: string[] = [''];
 
   inputLeft: ConvertorInputs = {
     input: 1,
@@ -28,7 +27,7 @@ export class ConvertorComponent implements OnInit {
   constructor(public currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    this.availableCurrency = this.currencyService.getArrOfAvailableCurrency();
+    this.currencyService.getArrOfAvailableCurrency().subscribe((res) => (this.availableCurrency = res));
   }
 
   convert(input: ConvertorInputs) {

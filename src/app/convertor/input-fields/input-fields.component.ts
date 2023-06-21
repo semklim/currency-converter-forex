@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./input-fields.component.css'],
 })
 export class InputFieldsComponent {
-  @Input() availableCurrency?: Observable<string[]>;
+  @Input() availableCurrency: string[] = [''];
 
   @Input() data: ConvertorInputs = {
     input: 0,
@@ -21,9 +21,10 @@ export class InputFieldsComponent {
 
   fireData() {
     clearTimeout(this.delayEmitId);
-
-    this.delayEmitId = setTimeout(() => {
-      this.dataChange.emit(this.data);
-    }, 100);
+    if (this.data.selected) {
+      this.delayEmitId = setTimeout(() => {
+        this.dataChange.emit(this.data);
+      }, 100);
+    }
   }
 }
