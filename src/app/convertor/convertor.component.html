@@ -1,5 +1,13 @@
 <h2>Online currency convertor</h2>
-<div class="convertor">
-  <app-input-fields [data]="inputLeft" (dataChange)="convert(inputLeft)"></app-input-fields>
-  <app-input-fields [data]="inputRight" (dataChange)="convert(inputRight)"></app-input-fields>
+<div class="wrapper">
+  <div class="convertor">
+    <app-input-fields
+      [availableCurrency]="availableCurrency"
+      [(data)]="inputLeft"
+      (dataChange)="convert(inputLeft)"></app-input-fields>
+    <app-input-fields
+      [availableCurrency]="availableCurrency"
+      [(data)]="inputRight"
+      (dataChange)="convert(inputRight)"></app-input-fields>
+  </div>
 </div>

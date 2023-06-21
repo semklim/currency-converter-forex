@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../services/Forex/currency.service';
+import { Observable } from 'rxjs';
 
 export type ConvertorInputs = {
   input: number;
@@ -11,7 +12,9 @@ export type ConvertorInputs = {
   templateUrl: './convertor.component.html',
   styleUrls: ['./convertor.component.css'],
 })
-export class ConvertorComponent {
+export class ConvertorComponent implements OnInit {
+  availableCurrency?: Observable<string[]>;
+
   inputLeft: ConvertorInputs = {
     input: 1,
     selected: 'USD',
@@ -23,6 +26,10 @@ export class ConvertorComponent {
   };
 
   constructor(public currencyService: CurrencyService) {}
+
+  ngOnInit(): void {
+    this.availableCurrency = this.currencyService.getArrOfAvailableCurrency();
+  }
 
   convert(input: ConvertorInputs) {
     if (this.isNaNCheck(input)) {

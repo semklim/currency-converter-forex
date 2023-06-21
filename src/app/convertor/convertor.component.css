@@ -3,13 +3,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 300px;
 }
-.convertor {
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 50px;
+  padding-top: 50px;
   gap: 50px;
 }

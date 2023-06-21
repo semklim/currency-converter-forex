@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ConvertorInputs } from '../convertor.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-input-fields',
@@ -7,7 +8,7 @@ import { ConvertorInputs } from '../convertor.component';
   styleUrls: ['./input-fields.component.css'],
 })
 export class InputFieldsComponent {
-  @Input() availableCurrency: string[] = ['USD', 'EUR', 'UAH'];
+  @Input() availableCurrency?: Observable<string[]>;
 
   @Input() data: ConvertorInputs = {
     input: 0,

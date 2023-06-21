@@ -1,3 +1,8 @@
+:host {
+  display: inline-block;
+  padding: 30px;
+}
+
 .convertCurrency {
   display: flex;
   justify-content: center;
@@ -8,6 +13,12 @@
 
 select {
   font-size: 20px;
+  width: 80px;
+  text-align: center;
+}
+
+select:focus {
+  size: 2;
 }
 
 input {

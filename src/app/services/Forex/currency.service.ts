@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
 
 type CurrencyConvert = {
   base: string;
@@ -20,6 +21,11 @@ type ResGetPrice = {
   ms: number;
 };
 
+type AvailableCurrency = {
+  currencies: { [key: string]: string };
+  ms: number;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -36,5 +42,10 @@ export class CurrencyService {
   getPriceFromAllToOne(from: string, to: string[]) {
     const url = `https://api.fastforex.io/fetch-multi?from=${from}&to=${to.join(',')}&api_key=${this.apiKey}`;
     return this.http.get<ResGetPrice>(url);
+  }
+
+  getArrOfAvailableCurrency() {
+    const url = `https://api.fastforex.io/currencies?api_key=${this.apiKey}`;
+    return this.http.get<AvailableCurrency>(url).pipe(map((el) => Object.keys(el.currencies)));
   }
 }

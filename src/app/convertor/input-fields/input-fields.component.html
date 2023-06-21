@@ -1,8 +1,14 @@
 <section class="convertCurrency">
   <input type="text" name="amount" [(ngModel)]="data.input" (input)="fireData()" />
   <div class="select">
-    <select name="currencies" [(ngModel)]="data.selected" (change)="fireData()">
-      <option [value]="code" *ngFor="let code of availableCurrency">{{ code }}</option>
+    <select
+      name="currencies"
+      #select
+      [(ngModel)]="data.selected"
+      (change)="fireData(); select.size = 1; select.blur()"
+      (focus)="select.size = 4"
+      (blur)="select.size = 1">
+      <option [value]="code" *ngFor="let code of availableCurrency | async">{{ code }}</option>
     </select>
   </div>
 </section>
