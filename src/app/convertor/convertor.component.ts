@@ -35,11 +35,13 @@ export class ConvertorComponent implements OnInit {
 
   convertByInput(input: ConvertorInputs) {
     if (this.validation(input)) {
+      this.inputLeft.input = this.inputRight.input = input.input;
       return;
     }
 
-    if (this.inputLeft.selected === this.inputRight.selected) {
-      this.inputLeft.input = this.inputRight.input;
+    if (!input.input && (Number(this.inputLeft.input) === 0 || Number(this.inputRight.input) === 0)) {
+      this.inputLeft.input = this.inputRight.input = null;
+      return;
     }
 
     let fromInstance: ConvertorInputs;
@@ -58,10 +60,6 @@ export class ConvertorComponent implements OnInit {
 
     fromInstance.exchangeDir = 'From';
     toInstance.exchangeDir = 'To';
-
-    if (Number(fromInstance.input) <= 0) {
-      return;
-    }
 
     this.postData(fromInstance, toInstance, amount);
   }
@@ -92,13 +90,18 @@ export class ConvertorComponent implements OnInit {
         toInstance = this.inputRight;
       }
     }
-    if (this.validation(input) || Number(fromInstance.input) <= 0) {
+    if (this.validation(input)) {
+      toInstance.input = fromInstance.input;
       return;
     }
+
     this.postData(fromInstance, toInstance, amount);
   }
 
   postData(fromInstance: ConvertorInputs, toInstance: ConvertorInputs, amount: number) {
+    if (Number(fromInstance.input) <= 0) {
+      return;
+    }
     this.currencyService.convertFromTo(fromInstance.selected!, toInstance.selected!, amount).subscribe((response) => {
       toInstance.input = response.result[toInstance.selected!];
     });
@@ -106,6 +109,11 @@ export class ConvertorComponent implements OnInit {
 
   validation(input: ConvertorInputs): boolean {
     const amount = Number(input.input);
-    return !this.inputLeft.selected || !this.inputRight.selected || Number.isNaN(amount);
+    return (
+      this.inputLeft.selected === this.inputRight.selected ||
+      !this.inputLeft.selected ||
+      !this.inputRight.selected ||
+      Number.isNaN(amount)
+    );
   }
 }

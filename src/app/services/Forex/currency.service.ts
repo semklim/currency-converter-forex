@@ -30,7 +30,7 @@ type AvailableCurrency = {
   providedIn: 'root',
 })
 export class CurrencyService {
-  private apiKey = 'demo';
+  private apiKey = '7dec0df915-91845759b7-rwki86';
 
   constructor(private http: HttpClient) {}
 
