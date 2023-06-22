@@ -23,9 +23,11 @@ export class InputFieldsComponent {
 
   fireData() {
     clearTimeout(this.delayEmitId);
-    this.delayEmitId = setTimeout(() => {
-      this.dataChange.emit(this.data);
-    }, 50);
+    if (!isNaN(this.data.input as number)) {
+      this.delayEmitId = setTimeout(() => {
+        this.dataChange.emit(this.data);
+      }, 50);
+    }
   }
 
   fireSelected() {

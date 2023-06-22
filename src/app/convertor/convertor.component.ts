@@ -33,12 +33,13 @@ export class ConvertorComponent implements OnInit {
     this.currencyService.getArrOfAvailableCurrency().subscribe((res) => (this.availableCurrency = res));
   }
 
+  /* -------------------------------- InputLeft Start ------------------------------- */
+
   set inputLeft(value: ConvertorInputs) {
     value.input = Number(value.input);
     if (value.input <= 0) {
       value.input = null;
     }
-
     this._inputLeft = value;
     this.convertByInput(value, this.inputRight, value.input);
   }
@@ -47,12 +48,13 @@ export class ConvertorComponent implements OnInit {
     return this._inputLeft;
   }
 
+  /* ------------------------------- InputRight Start ------------------------------- */
+
   set inputRight(value: ConvertorInputs) {
     value.input = Number(value.input);
     if (value.input <= 0) {
       value.input = null;
     }
-
     this._inputRight = value;
     this.convertByInput(value, this.inputLeft, value.input);
   }
@@ -60,6 +62,8 @@ export class ConvertorComponent implements OnInit {
   get inputRight(): ConvertorInputs {
     return this._inputRight;
   }
+
+  /* --------------------------- Logic of conversion -------------------------- */
 
   convertByInput(fromInstance: ConvertorInputs, toInstance: ConvertorInputs, amount: number | null) {
     if (this.validation(amount)) {
