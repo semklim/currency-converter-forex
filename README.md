@@ -8,6 +8,10 @@ In project I use:
 - fastforex API [fastforex](https://www.fastforex.io/), for currency conversion;
 - ng-select from this [repo](https://github.com/ng-select/ng-select), for list of currency;
 
+## Example how it works
+
+![Example how it works](./src/assets/exampleOfWork.gif)
+
 ## Task
 
 ### Header
