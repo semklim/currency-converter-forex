@@ -15,13 +15,13 @@ export type ConvertorInputs = {
 export class ConvertorComponent implements OnInit {
   availableCurrency: string[] = [''];
 
-  inputLeft: ConvertorInputs = {
+  _inputLeft: ConvertorInputs = {
     input: null,
     selected: null,
     exchangeDir: 'From',
   };
 
-  inputRight: ConvertorInputs = {
+  _inputRight: ConvertorInputs = {
     input: null,
     selected: null,
     exchangeDir: 'To',
@@ -33,29 +33,43 @@ export class ConvertorComponent implements OnInit {
     this.currencyService.getArrOfAvailableCurrency().subscribe((res) => (this.availableCurrency = res));
   }
 
-  convertByInput(input: ConvertorInputs) {
-    if (this.validation(input)) {
-      this.inputLeft.input = this.inputRight.input = input.input;
+  set inputLeft(value: ConvertorInputs) {
+    value.input = Number(value.input);
+    if (value.input <= 0) {
+      value.input = null;
+    }
+
+    this._inputLeft = value;
+    this.convertByInput(value, this.inputRight, value.input);
+  }
+
+  get inputLeft(): ConvertorInputs {
+    return this._inputLeft;
+  }
+
+  set inputRight(value: ConvertorInputs) {
+    value.input = Number(value.input);
+    if (value.input <= 0) {
+      value.input = null;
+    }
+
+    this._inputRight = value;
+    this.convertByInput(value, this.inputLeft, value.input);
+  }
+
+  get inputRight(): ConvertorInputs {
+    return this._inputRight;
+  }
+
+  convertByInput(fromInstance: ConvertorInputs, toInstance: ConvertorInputs, amount: number | null) {
+    if (this.validation(amount)) {
+      this.inputLeft.input = this.inputRight.input = amount;
       return;
     }
 
-    if (!input.input && (Number(this.inputLeft.input) === 0 || Number(this.inputRight.input) === 0)) {
+    if (!amount) {
       this.inputLeft.input = this.inputRight.input = null;
       return;
-    }
-
-    let fromInstance: ConvertorInputs;
-    let toInstance: ConvertorInputs;
-    let amount: number;
-
-    if (input === this.inputLeft) {
-      this.inputLeft.input = amount = Number(this.inputLeft.input);
-      fromInstance = this.inputLeft;
-      toInstance = this.inputRight;
-    } else {
-      this.inputRight.input = amount = Number(this.inputRight.input);
-      fromInstance = this.inputRight;
-      toInstance = this.inputLeft;
     }
 
     fromInstance.exchangeDir = 'From';
@@ -67,12 +81,11 @@ export class ConvertorComponent implements OnInit {
   convertByCurrencyCod(input: ConvertorInputs) {
     let fromInstance: ConvertorInputs;
     let toInstance: ConvertorInputs;
-    let amount: number;
+    let amount = input.input;
 
     if (input === this.inputLeft) {
-      if (this.inputLeft.exchangeDir === 'From') {
+      if (input.exchangeDir === 'From') {
         fromInstance = this.inputLeft;
-        amount = Number(this.inputLeft.input);
         toInstance = this.inputRight;
       } else {
         fromInstance = this.inputRight;
@@ -80,9 +93,8 @@ export class ConvertorComponent implements OnInit {
         toInstance = this.inputLeft;
       }
     } else {
-      if (this.inputRight.exchangeDir === 'From') {
+      if (input.exchangeDir === 'From') {
         fromInstance = this.inputRight;
-        amount = Number(this.inputRight.input);
         toInstance = this.inputLeft;
       } else {
         fromInstance = this.inputLeft;
@@ -90,25 +102,22 @@ export class ConvertorComponent implements OnInit {
         toInstance = this.inputRight;
       }
     }
-    if (this.validation(input)) {
+    if (this.validation(amount)) {
       toInstance.input = fromInstance.input;
       return;
     }
-
-    this.postData(fromInstance, toInstance, amount);
+    if (amount) {
+      this.postData(fromInstance, toInstance, amount);
+    }
   }
 
   postData(fromInstance: ConvertorInputs, toInstance: ConvertorInputs, amount: number) {
-    if (Number(fromInstance.input) <= 0) {
-      return;
-    }
     this.currencyService.convertFromTo(fromInstance.selected!, toInstance.selected!, amount).subscribe((response) => {
       toInstance.input = response.result[toInstance.selected!];
     });
   }
 
-  validation(input: ConvertorInputs): boolean {
-    const amount = Number(input.input);
+  validation(amount: number | null): boolean {
     return (
       this.inputLeft.selected === this.inputRight.selected ||
       !this.inputLeft.selected ||
