@@ -14,10 +14,7 @@
 .select {
   width: 110px;
   font-size: 20px;
-}
-
-select:focus {
-  size: 2;
+  text-align: center;
 }
 
 .inp {

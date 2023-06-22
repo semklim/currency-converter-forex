@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ConvertorInputs } from '../convertor.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-input-fields',
@@ -11,20 +10,25 @@ export class InputFieldsComponent {
   @Input() availableCurrency: string[] = [''];
 
   @Input() data: ConvertorInputs = {
-    input: 0,
-    selected: '',
+    input: null,
+    selected: null,
+    exchangeDir: '',
   };
 
   @Output() dataChange: EventEmitter<ConvertorInputs> = new EventEmitter();
+
+  @Output() selectedChange: EventEmitter<ConvertorInputs> = new EventEmitter();
 
   private delayEmitId?: ReturnType<typeof setTimeout>;
 
   fireData() {
     clearTimeout(this.delayEmitId);
-    if (this.data.selected) {
-      this.delayEmitId = setTimeout(() => {
-        this.dataChange.emit(this.data);
-      }, 100);
-    }
+    this.delayEmitId = setTimeout(() => {
+      this.dataChange.emit(this.data);
+    }, 50);
+  }
+
+  fireSelected() {
+    this.selectedChange.emit();
   }
 }

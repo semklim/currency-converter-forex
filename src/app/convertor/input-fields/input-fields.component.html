@@ -1,11 +1,15 @@
 <section class="convertCurrency">
-  <!-- <input type="text" name="amount" [(ngModel)]="data.input" (input)="fireData()" /> -->
-  <label for="inp" class="inp">
-    <input type="text" id="inp" placeholder="&nbsp;" [(ngModel)]="data.input" (input)="fireData()" />
-    <span class="label">Label</span>
+  <label class="inp">
+    <input type="text" placeholder="&nbsp;" [(ngModel)]="data.input" (input)="fireData()" />
+    <span class="label">{{ data.exchangeDir }}</span>
     <span class="focus-bg"></span>
   </label>
   <div class="select">
-    <ng-select class="select" [items]="availableCurrency" [(ngModel)]="data.selected" (change)="fireData()"></ng-select>
+    <ng-select
+      class="select"
+      [items]="availableCurrency"
+      [(ngModel)]="data.selected"
+      (change)="fireSelected()"
+      placeholder="currency"></ng-select>
   </div>
 </section>

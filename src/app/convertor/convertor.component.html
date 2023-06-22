@@ -4,10 +4,12 @@
     <app-input-fields
       [availableCurrency]="availableCurrency"
       [(data)]="inputLeft"
-      (dataChange)="convert(inputLeft)"></app-input-fields>
+      (dataChange)="convertByInput(inputLeft)"
+      (selectedChange)="convertByCurrencyCod(inputLeft)"></app-input-fields>
     <app-input-fields
       [availableCurrency]="availableCurrency"
       [(data)]="inputRight"
-      (dataChange)="convert(inputRight)"></app-input-fields>
+      (dataChange)="convertByInput(inputRight)"
+      (selectedChange)="convertByCurrencyCod(inputRight)"></app-input-fields>
   </div>
 </div>
