@@ -30,7 +30,7 @@ type AvailableCurrency = {
   providedIn: 'root',
 })
 export class CurrencyService {
-  private apiKey = 'demo';
+  private apiKey = '7dec0df915-91845759b7-rwki86';
 
   constructor(private http: HttpClient) {}
 
@@ -46,6 +46,6 @@ export class CurrencyService {
 
   getArrOfAvailableCurrency() {
     const url = `https://api.fastforex.io/currencies?api_key=${this.apiKey}`;
-    return this.http.get<AvailableCurrency>(url).pipe(map((el) => Object.keys(el.currencies)));
+    return this.http.get<AvailableCurrency>(url).pipe(map((el) => el.currencies));
   }
 }

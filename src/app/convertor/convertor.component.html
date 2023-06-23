@@ -2,11 +2,11 @@
 <div class="wrapper">
   <div class="convertor">
     <app-input-fields
-      [availableCurrency]="availableCurrency"
+      [availableCurrency$]="availableCurrency"
       [(data)]="inputLeft"
       (selectedChange)="convertByCurrencyCod(inputLeft)"></app-input-fields>
     <app-input-fields
-      [availableCurrency]="availableCurrency"
+      [availableCurrency$]="availableCurrency"
       [(data)]="inputRight"
       (selectedChange)="convertByCurrencyCod(inputRight)"></app-input-fields>
   </div>
