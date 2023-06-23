@@ -1,6 +1,5 @@
 :host {
   display: inline-block;
-  padding: 30px;
 }
 
 .convertCurrency {
@@ -9,6 +8,13 @@
   align-items: center;
   flex-direction: column;
   gap: 5px;
+  padding: 30px;
+}
+
+@media (max-width: 440px) {
+  .convertCurrency {
+    padding: 3px;
+  }
 }
 
 .select {
